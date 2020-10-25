@@ -9,8 +9,8 @@ class LoginRequest extends Request
     public function __construct()
     {
         $form = array(
-            'username|Usuario' => 'requerido',
-            'email|Correo' => 'requerido|email'
+            'username|Usuario' => 'required',
+            'email|Correo' => 'required|email'
         );
         self::$form = $form;
     }
