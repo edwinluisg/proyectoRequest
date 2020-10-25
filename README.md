@@ -1,11 +1,18 @@
-# Modulo request de proyecto
+# Proyecto Request
 
-## Aplicacion php 7 mvc
-Aplicacion realizada con php 7 y modelos mvc
+Proyecto desarrollado para la validación de formularios en php, se trata de optimizar el flujo de desarrollo adoptando una clase Request, donde este tiene todas las funciones de validación.
 
-- php7.
-- mvc.
+### Tecnologías
 
-## Licencia
+  - Php 7.2
+  - Apache
 
-Este sistema es desarrollado por [edwinluisg](http://ingenierosensi.com) y es de propiedad privada
+### Instalación
+
+Este es un proyecto simple de php sin ninguna libreria.
+
+### Desarrollador
+
+Desarrollador: edwinluisg
+
+
