@@ -258,12 +258,38 @@ class Request
 
     public static function min($name, $alias, $parametro)
     {
-
+        $value = trim($_REQUEST[$name]);
+        $resp = false;
+        $mensaje = '';
+        if ($value != '') {
+            if ($value >= $parametro) {
+                $resp = true;
+            } else{
+                $mensaje = 'El campo ' . $alias . ' debe ser como minimo ' . $parametro;
+            }
+        } else {
+            $resp = true;
+        }
+        self::$errors[$name] = $mensaje;
+        return $resp;
     }
 
     public static function max($name, $alias, $parametro)
     {
-
+        $value = trim($_REQUEST[$name]);
+        $resp = false;
+        $mensaje = '';
+        if ($value != '') {
+            if ($value <= $parametro) {
+                $resp = true;
+            } else{
+                $mensaje = 'El campo ' . $alias . ' debe ser como maximo ' . $parametro;
+            }
+        } else {
+            $resp = true;
+        }
+        self::$errors[$name] = $mensaje;
+        return $resp;
     }
 
     public static function long_min($name, $alias, $parametro)
