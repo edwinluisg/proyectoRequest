@@ -213,12 +213,47 @@ class Request
 
     public static function image($name, $alias, $parametro)
     {
-
+        $file = $_FILES[$name];
+        $resp = false;
+        $mensaje = '';
+        if (isset($file)) {
+            if ($file["error"] <= 0) {
+                $extencion = pathinfo($file["name"])['extension'];
+                $array = array("jpg", "jpeg", "png", "JPG", "JPEG", "PNG");
+                foreach ($array as $value) {
+                    if ($value == $extencion) {
+                        $resp = true;
+                        break;
+                    }
+                }
+                if (!$resp) {
+                    $mensaje = 'El campo ' . $alias . ' debe tener un formato de imagen correcto';
+                }
+            } else {
+                $resp = true;
+            }
+        } else {
+            $resp = true;
+        }
+        self::$errors[$name] = $mensaje;
+        return $resp;
     }
 
     public static function image_required($name, $alias, $parametro)
     {
-
+        $file = $_FILES[$name];
+        $resp = false;
+        $mensaje = '';
+        if (isset($file)) {
+            if ($file["error"] <= 0) {
+                $resp = true;
+            }
+        }
+        if (!$resp) {
+            $mensaje = 'El campo ' . $alias . ' es obligatorio';
+        }
+        self::$errors[$name] = $mensaje;
+        return $resp;
     }
 
     public static function min($name, $alias, $parametro)
