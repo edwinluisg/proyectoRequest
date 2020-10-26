@@ -10,7 +10,7 @@ class LoginRequest extends Request
     {
         $form = array(
             'username|Usuario' => 'required|integer',
-            'email|Correo' => 'required'
+            'email|Correo' => 'required|time'
         );
         self::$form = $form;
     }

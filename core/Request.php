@@ -18,7 +18,7 @@ class Request
     //     'slug',//el campo debe cumplir como slug
     //     'email',//el campo debe ser email valido
     //     'date',//el campo debe ser formato fecha
-    //     'timestamp',//el campo debe ser formato timestamp
+    //     'time',//el campo debe ser formato hora
     //     'image',//el campo dene ser imagen
     //     'image_required',//el campo requiere una imagen
     //     'min:numero',//el campo puede ser como minimo el numero
@@ -206,9 +206,36 @@ class Request
         return $resp;
     }
 
-    public static function timestamp($name, $alias, $parametro)
+    public static function time($name, $alias, $parametro)
     {
-
+        $value = trim($_REQUEST[$name]);
+        $resp = false;
+        $mensaje = '';
+        if ($value != '') {
+            $permitidos = "0123456789:";
+            $cont = true;
+            for ($i=0; $i < strlen($value) ; $i++){
+                $encuentra = strpos($permitidos, substr($value,$i,1));
+                if ($encuentra === false){
+                    $cont = false;
+                    break;
+                }
+            }
+            $valores = explode(':', $value);
+            if ($cont AND (count($valores) == 2)) {
+                if (($valores[0] < 24) AND ($valores[1] < 60)) {
+                    $resp = true;
+                } else {
+                    $mensaje = 'El campo ' . $alias . ' debe se una hora correcta';
+                }
+            } else {
+                $mensaje = 'El campo ' . $alias . ' debe tener un formato de Hora hora:minuto (00:00)';
+            }
+        } else {
+            $resp = true;
+        }
+        self::$errors[$name] = $mensaje;
+        return $resp;
     }
 
     public static function image($name, $alias, $parametro)
