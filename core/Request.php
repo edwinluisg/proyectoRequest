@@ -116,7 +116,20 @@ class Request
 
     public static function string($name, $alias, $parametro)
     {
-
+        $value = trim($_REQUEST[$name]);
+        $resp = false;
+        $mensaje = '';
+        if ($value != '') {
+            if (preg_match("/^(?!-+)[a-zA-Z-ñáéíóú ]*$/", $value)) {
+                $resp = true;
+            } else {
+                $mensaje = 'El campo ' . $alias . ' debe ser una cadena de texto';
+            }
+        } else {
+            $resp = true;
+        }
+        self::$errors[$name] = $mensaje;
+        return $resp;
     }
 
     public static function text($name, $alias, $parametro)
@@ -126,7 +139,29 @@ class Request
 
     public static function slug($name, $alias, $parametro)
     {
-
+        $value = trim($_REQUEST[$name]);
+        $resp = false;
+        $mensaje = '';
+        if ($value != '') {
+            $permitidos = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_";
+            $cont = true;
+            for ($i=0; $i < strlen($value) ; $i++){
+                $encuentra = strpos($permitidos, substr($value,$i,1));
+                if ($encuentra === false){
+                    $cont = false;
+                    break;
+                }
+            }
+            if ($cont) {
+                $resp = true;
+            } else {
+                $mensaje = 'El campo ' . $alias . ' solo acepta letras, números, - (guión medio) , _ (guión bajo)';
+            }
+        } else {
+            $resp = true;
+        }
+        self::$errors[$name] = $mensaje;
+        return $resp;
     }
 
     public static function email($name, $alias, $parametro)
@@ -149,7 +184,26 @@ class Request
 
     public static function date($name, $alias, $parametro)
     {
-
+        $value = trim($_REQUEST[$name]);
+        $resp = false;
+        $mensaje = '';
+        if ($value != '') {
+            $con = strlen($value);
+            $valores = explode('-', $value);
+            if (($con >= 8) AND ($con <= 10) AND (count($valores) == 3)) {
+                if (checkdate($valores[1], $valores[2], $valores[0])) {
+                    $resp = true;
+                } else {
+                    $mensaje = 'El campo ' . $alias . ' debe ser una fecha valida';
+                }
+            } else {
+                $mensaje = 'El campo ' . $alias . ' debe tener el formato dd/mm/yyyy';
+            }
+        } else {
+            $resp = true;
+        }
+        self::$errors[$name] = $mensaje;
+        return $resp;
     }
 
     public static function timestamp($name, $alias, $parametro)

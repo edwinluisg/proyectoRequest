@@ -7,7 +7,7 @@
 </head>
 <body>
     <div>
-        <form action="front/validar" method="post">
+        <form action="front/validar" method="post" enctype="multipart/form-data">
             <input type="text" name="username">
             <input type="text" name="email">
             <input type="submit" value="enviar">
