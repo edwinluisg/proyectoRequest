@@ -268,17 +268,57 @@ class Request
 
     public static function long_min($name, $alias, $parametro)
     {
-
+        $value = trim($_REQUEST[$name]);
+        $resp = false;
+        $mensaje = '';
+        if ($value != '') {
+            if (strlen($value) >= $parametro) {
+                $resp = true;
+            } else {
+                $mensaje = 'El campo ' . $alias . ' debe tener minimo ' . $parametro . ' caracteres';
+            }
+        } else {
+            $resp = true;
+        }
+        self::$errors[$name] = $mensaje;
+        return $resp;
     }
 
     public static function long_max($name, $alias, $parametro)
     {
-
+        $value = trim($_REQUEST[$name]);
+        $resp = false;
+        $mensaje = '';
+        if ($value != '') {
+            if (strlen($value) <= $parametro) {
+                $resp = true;
+            } else {
+                $mensaje = 'El campo ' . $alias . ' debe tener maximo ' . $parametro . ' caracteres';
+            }
+        } else {
+            $resp = true;
+        }
+        self::$errors[$name] = $mensaje;
+        return $resp;
     }
 
     public static function same($name, $alias, $parametro)
     {
-
+        $value = trim($_REQUEST[$name]);
+        $value2 = trim($_REQUEST[$parametro]);
+        $resp = false;
+        $mensaje = '';
+        if ($value != '' AND $value2 != '') {
+            if ($value === $value2) {
+                $resp = true;
+            } else {
+                $mensaje = 'El campo ' . $alias . ' debe se igual al otro campo';
+            }
+        } else {
+            $resp = true;
+        }
+        self::$errors[$name] = $mensaje;
+        return $resp;
     }
 
     public static function age($name, $alias, $parametro)
